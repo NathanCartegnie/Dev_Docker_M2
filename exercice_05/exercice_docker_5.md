@@ -1,7 +1,7 @@
 # Exercice 5
 
 ```bash
-network create reseau-mysql
+docker network create reseau-mysql
 
 docker volume create mysql-data
 

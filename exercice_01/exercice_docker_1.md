@@ -10,3 +10,4 @@ apt install -y nginx
 exit
 
 docker commit mon-ubuntu ubuntu-nginx
+```

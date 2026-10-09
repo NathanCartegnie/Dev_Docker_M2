@@ -1,0 +1,34 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: kennel-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: kennel
+      MYSQL_USER: kennel
+      MYSQL_PASSWORD: kennelpass
+    volumes:
+      - kennel-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpass"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ../../../../Downloads/exercice08/exercice08
+    container_name: kennel-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/kennel
+      DB_USER: kennel
+      DB_PASSWORD: kennelpass
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  kennel-data:
